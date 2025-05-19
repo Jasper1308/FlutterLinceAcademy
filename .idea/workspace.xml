@@ -4,23 +4,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="441a016f-503a-4f2a-8af1-47a42d6819a4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/arquivosGitHub.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apf1_funcoes/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apf1_funcoes/.idea/apf1_funcoes.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apf1_funcoes/.idea/caches/deviceStreaming.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apf1_funcoes/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apf1_funcoes/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apf1_funcoes/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apf2_funcoes/ap1.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apf1_funcoes/ap3.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apf1_funcoes/ap3.dart" afterDir="false" />
-    </list>
+    <list default="true" id="441a016f-503a-4f2a-8af1-47a42d6819a4" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
