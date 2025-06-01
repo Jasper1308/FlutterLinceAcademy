@@ -1,8 +1,7 @@
-import 'package:ap1/apf6_funcoes/enum/tipo_sanguineo_enum.dart';
+import 'package:ap1/apf6_funcoes/components/pessoa_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ap1/apf6_funcoes/models/pessoa_state.dart';
-import 'base_form.dart';
 
 
 class ListagemPessoas extends StatefulWidget {
@@ -66,51 +65,7 @@ class _ListagemPessoasState extends State<ListagemPessoas> {
 
                     return ListView.builder(
                       itemCount: pessoas.length,
-                      itemBuilder: (BuildContext context, int i) {
-                        return Card(
-                          margin: EdgeInsets.all(16),
-                          child: ListTile(
-                            title: Center(child: Text(pessoas[i].nome)),
-                            subtitle: Column(
-                              children: [
-                                Text(pessoas[i].email),
-                                Text(pessoas[i].telefone),
-                                Text(pessoas[i].github),
-                                Text(
-                                  'Tipo ${pessoas[i].tipoSanguineo.displayString}',
-                                  style: TextStyle(
-                                      color: pessoas[i].tipoSanguineo.color
-                                  ),
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    FloatingActionButton(
-                                        child: Icon(Icons.edit),
-                                        onPressed: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) => FormularioBase(pessoaEditar: pessoas[i]),
-                                            ),
-                                          );
-                                        }
-                                    ),
-                                    SizedBox(width: 8),
-                                    FloatingActionButton(
-                                      child: Icon(Icons.delete,),
-                                      onPressed: () {
-                                        final estadoListaPessoas = Provider.of<EstadoListaDePessoas>(context, listen: false);
-                                        estadoListaPessoas.excluir(pessoas[i]);
-                                      },
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                          ),
-                        );
-                      },
+                      itemBuilder: (BuildContext context, int i) => PessoaCard(pessoa: pessoas[i])
                     );
                   }
               ),
