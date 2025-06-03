@@ -18,6 +18,8 @@ class _ListagemPessoasState extends State<ListagemPessoas> {
   void initState() {
     super.initState();
     _buscaController = TextEditingController();
+    final estadoListaPessoas = Provider.of<EstadoListaDePessoas>(context, listen: false);
+    estadoListaPessoas.carregarPessoas();
   }
 
   @override

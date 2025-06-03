@@ -15,6 +15,8 @@ class FormularioBase extends StatefulWidget {
 }
 
 class _FormularioBaseState extends State<FormularioBase> {
+  final _formKey = GlobalKey<FormState>();
+
   final TextEditingController _nomeController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _telefoneController = TextEditingController();
@@ -51,97 +53,127 @@ class _FormularioBaseState extends State<FormularioBase> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            TextField(
-              controller: _nomeController,
-              decoration: InputDecoration(
-                labelText: 'Nome Completo',
-                border: OutlineInputBorder(),
+        child: Form(
+          key: _formKey,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          child: Column(
+            children: [
+              TextFormField(
+                controller: _nomeController,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Por favor, insira um nome';
+                  }
+                  return null;
+                },
+                decoration: InputDecoration(
+                  labelText: 'Nome Completo',
+                  border: OutlineInputBorder(),
+                ),
               ),
-            ),
-            SizedBox(height: 16),
-            TextField(
-              controller: _emailController,
-              decoration: InputDecoration(
-                  labelText: 'E-mail',
-                  border: OutlineInputBorder()
+              SizedBox(height: 16),
+              TextFormField(
+                controller: _emailController,
+                validator: (value) {
+                  if (value == null || value.isEmpty || !value.contains('@')) {
+                    return 'E-mail inválido';
+                  }
+                  return null;
+                },
+                decoration: InputDecoration(
+                    labelText: 'E-mail',
+                    border: OutlineInputBorder()
+                ),
               ),
-            ),
-            SizedBox(height: 16),
-            TextField(
-              controller: _telefoneController,
-              decoration: InputDecoration(
-                  labelText: 'Telefone',
-                  border: OutlineInputBorder()
+              SizedBox(height: 16),
+              TextFormField(
+                controller: _telefoneController,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Por favor, insira um telefone';
+                  }
+                  return null;
+                },
+                decoration: InputDecoration(
+                    labelText: 'Telefone',
+                    border: OutlineInputBorder()
+                ),
               ),
-            ),
-            SizedBox(height: 16),
-            TextField(
-              controller: _githubController,
-              decoration: InputDecoration(
-                  labelText: 'Link GitHub',
-                  border: OutlineInputBorder()
+              SizedBox(height: 16),
+              TextFormField(
+                controller: _githubController,
+                validator: (value) {
+                  if (value == null || value.isEmpty || !value.contains('github.com') || !value.contains('/')) {
+                    return 'link do GitHub inválido';
+                  }
+                  return null;
+                },
+                decoration: InputDecoration(
+                    labelText: 'Link GitHub',
+                    border: OutlineInputBorder()
+                ),
               ),
-            ),
-            SizedBox(height: 16),
-            DropdownButton<TipoSanguineo>(
-              value: _tipoSanguineo,
-              hint: Text('Tipo Sanguíneo'),
-              isExpanded: true,
-              items: TipoSanguineo.values.map((tipo) {
-                return DropdownMenuItem<TipoSanguineo>(
-                  value: tipo,
-                  child: Text(tipo.displayString),
-                );
-              }).toList(),
-              onChanged: (TipoSanguineo? value) {
-                setState(() {
-                  _tipoSanguineo = value!;
-                });
-              },
-            ),
-            ElevatedButton(
-              onPressed: () {
-                if (widget.pessoaEditar != null) {
-                  estadoListaPessoas.editar(
-                    Pessoa(
-                        id: widget.pessoaEditar!.id,
-                        nome: _nomeController.text,
-                        email: _emailController.text,
-                        telefone: _telefoneController.text,
-                        github: _githubController.text,
-                        tipoSanguineo: _tipoSanguineo
-                    ),
+              SizedBox(height: 16),
+              DropdownButton<TipoSanguineo>(
+                value: _tipoSanguineo,
+                hint: Text('Tipo Sanguíneo'),
+                isExpanded: true,
+                items: TipoSanguineo.values.map((tipo) {
+                  return DropdownMenuItem<TipoSanguineo>(
+                    value: tipo,
+                    child: Text(tipo.displayString),
                   );
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Pessoa atualizada com sucesso!'),
-                    ),
-                  );
-                } else {
-                  final uuid = Uuid();
-                  estadoListaPessoas.incluir(
-                    Pessoa(
-                        id: uuid.v4(),
-                        nome: _nomeController.text,
-                        email: _emailController.text,
-                        telefone: _telefoneController.text,
-                        github: _githubController.text,
-                        tipoSanguineo: _tipoSanguineo
-                    ),
-                  );
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Pessoa cadastrada com sucesso!'),
-                    ),
-                  );
-                }
-                Navigator.pop(context); // Volta para a tela anterior
-              },
-              child: Text(widget.pessoaEditar != null ? 'Atualizar' : 'Cadastrar'),
-            ),
-          ],
+                }).toList(),
+                onChanged: (TipoSanguineo? value) {
+                  setState(() {
+                    _tipoSanguineo = value!;
+                  });
+                },
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    if (widget.pessoaEditar != null) {
+                      estadoListaPessoas.editar(
+                        Pessoa(
+                            id: widget.pessoaEditar!.id,
+                            nome: _nomeController.text,
+                            email: _emailController.text,
+                            telefone: _telefoneController.text,
+                            github: _githubController.text,
+                            tipoSanguineo: _tipoSanguineo
+                        ),
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Pessoa atualizada com sucesso!'),
+                        ),
+                      );
+                    } else {
+                      final uuid = Uuid();
+                      estadoListaPessoas.incluir(
+                        Pessoa(
+                            id: uuid.v4(),
+                            nome: _nomeController.text,
+                            email: _emailController.text,
+                            telefone: _telefoneController.text,
+                            github: _githubController.text,
+                            tipoSanguineo: _tipoSanguineo
+                        ),
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Pessoa cadastrada com sucesso!'),
+                        ),
+                      );
+                    }
+                  }
+                  Navigator.pop(context); // Volta para a tela anterior
+                },
+                child: Text(widget.pessoaEditar != null ? 'Atualizar' : 'Cadastrar'),
+              ),
+            ],
+          ),
         ),
       ),
     );

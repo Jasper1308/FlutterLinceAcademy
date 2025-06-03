@@ -1,24 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:ap1/apf6_funcoes/models/pessoa_model.dart';
-import 'package:uuid/uuid.dart';
-import 'package:ap1/apf6_funcoes/enum/tipo_sanguineo_enum.dart';
+
+import '../controller/database.dart';
 
 class EstadoListaDePessoas with ChangeNotifier {
-  final _listaDePessoas = <Pessoa>[
-    Pessoa(
-        id: const Uuid().v4(),
-        nome: 'Adrian',
-        email: 'adrianpjasper@gmail.com',
-        telefone: '47996167347',
-        github: 'github.com',
-        tipoSanguineo: TipoSanguineo.oPositivo)
-  ];
-
+  final List<Pessoa> _listaDePessoas = [];
   List<Pessoa> _pessoasExibidas =[];
 
-  EstadoListaDePessoas() {
-    _pessoasExibidas = List.from(_listaDePessoas);
-  }
+  final _pessoaController = PessoaController();
 
   List<Pessoa> get pessoas => List.unmodifiable(_pessoasExibidas);
 
@@ -26,12 +15,14 @@ class EstadoListaDePessoas with ChangeNotifier {
   void incluir(Pessoa pessoa) {
     _listaDePessoas.add(pessoa);
     _pessoasExibidas.add(pessoa);
+    _pessoaController.salvar(pessoa);
     notifyListeners();
   }
 
   void excluir(Pessoa pessoa) {
     _listaDePessoas.remove(pessoa);
     _pessoasExibidas.remove(pessoa);
+    _pessoaController.excluir(pessoa);
     notifyListeners();
   }
 
@@ -53,5 +44,12 @@ class EstadoListaDePessoas with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> carregarPessoas() async {
+    final pessoas = await _pessoaController.listar();
+    _listaDePessoas.clear();
+    _listaDePessoas.addAll(pessoas);
+    _pessoasExibidas = List.from(_listaDePessoas);
+    notifyListeners();
+  }
 // todo: implementar métodos restantes
 }
